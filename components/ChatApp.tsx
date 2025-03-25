@@ -16,7 +16,7 @@ const ChatApp = () => {
   //   return io("/", { path: "/api/chat" });
   // }, []);
   const socket: Socket = useMemo(() => {
-    return io("https://your-socket-server.com", {
+    return io("https://keyurs-chat-app.vercel.app", {
       path: "/socket.io/",
       transports: ["websocket", "polling"],
     });
