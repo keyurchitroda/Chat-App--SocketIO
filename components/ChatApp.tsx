@@ -16,9 +16,14 @@ const ChatApp = () => {
   //   return io("/", { path: "/api/chat" });
   // }, []);
   const socket: Socket = useMemo(() => {
-    return io("https://keyurs-chat-app.vercel.app", {
+    return io("/", {
+      // Change to actual backend URL
       path: "/api/chat",
       transports: ["websocket", "polling"],
+      secure: true,
+      reconnection: true,
+      reconnectionAttempts: 5,
+      reconnectionDelay: 2000,
     });
   }, []);
 
