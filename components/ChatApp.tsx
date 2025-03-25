@@ -18,7 +18,7 @@ const ChatApp = () => {
   const socket: Socket = useMemo(() => {
     return io("/", {
       // Change to actual backend URL
-      path: "/api/chat",
+      path: "/socket.io/",
       transports: ["websocket", "polling"],
       secure: true,
       reconnection: true,

@@ -38,7 +38,7 @@ export default function handler(
     // });
 
     const io = new SocketIOServer(server, {
-      path: "/api/chat",
+      path: "/socket.io/",
       cors: {
         origin: "https://keyurs-chat-app.vercel.app",
         methods: ["GET", "POST"],
