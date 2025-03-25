@@ -49,7 +49,6 @@ export default function handler(
       });
 
       socket.on("new_user", (data) => {
-        console.log("data>>>>>>>>>>>>>>>", data);
         socket.broadcast.emit("new_user", data.user);
       });
     });

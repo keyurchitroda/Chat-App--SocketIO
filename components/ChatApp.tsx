@@ -16,11 +16,11 @@ const ChatApp = () => {
     return io("/", { path: "/api/chat" });
   }, []);
 
+  console.log("socket>>>>>>>>>>>>>>>>", socket);
+
   useEffect(() => {
     console.log("call useeffect");
     socket.on("recieve_message", (msg) => {
-      console.log("data>>>>>>>>>>>", msg);
-
       setChat((prev) => [...prev, msg]);
     });
 
@@ -29,7 +29,6 @@ const ChatApp = () => {
       setTyping((prev) => {
         if (typing.includes(data.user) && data.typing === true) return prev;
         if (data.typing === false) {
-          console.log("prev>>>>>>>>>>>", prev);
           return prev.filter((u) => u !== data.user);
         } else {
           return [...prev, data.user];
@@ -39,7 +38,6 @@ const ChatApp = () => {
 
     socket.on("new_user", (newUser) => {
       if (!user.current) return;
-      console.log("newUser>>>>>>>>>>>", newUser);
       setChat((prev) => [
         ...prev,
         { content: `${newUser} joined`, type: "server" },
