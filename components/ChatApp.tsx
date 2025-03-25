@@ -20,7 +20,7 @@ const ChatApp = () => {
       // Change to actual backend URL
       path: "/socket.io/",
       transports: ["websocket", "polling"],
-      secure: true,
+      secure: false,
       reconnection: true,
       reconnectionAttempts: 5,
       reconnectionDelay: 2000,
