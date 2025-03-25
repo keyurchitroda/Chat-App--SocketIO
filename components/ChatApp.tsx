@@ -12,8 +12,14 @@ const ChatApp = () => {
   const [input, setInput] = useState("");
   const [typing, setTyping] = useState<any[]>([]);
 
+  // const socket: Socket = useMemo(() => {
+  //   return io("/", { path: "/api/chat" });
+  // }, []);
   const socket: Socket = useMemo(() => {
-    return io("/", { path: "/api/chat" });
+    return io("https://your-socket-server.com", {
+      path: "/socket.io/",
+      transports: ["websocket", "polling"],
+    });
   }, []);
 
   console.log("socket>>>>>>>>>>>>>>>>", socket);

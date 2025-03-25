@@ -28,10 +28,19 @@ export default function handler(
   const server = res.socket.server as SocketServer;
 
   if (!server.io) {
+    // const io = new SocketIOServer(server, {
+    //   path: "/api/chat",
+    //   cors: {
+    //     origin: "*",
+    //     methods: ["GET", "POST"],
+    //     credentials: true,
+    //   },
+    // });
+
     const io = new SocketIOServer(server, {
-      path: "/api/chat",
+      path: "/socket.io/",
       cors: {
-        origin: "*",
+        origin: "https://keyurs-chat-app.vercel.app",
         methods: ["GET", "POST"],
         credentials: true,
       },
