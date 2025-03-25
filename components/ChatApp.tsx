@@ -13,7 +13,7 @@ const ChatApp = () => {
   const [typing, setTyping] = useState<any[]>([]);
 
   const socket: Socket = useMemo(() => {
-    return io("/", { path: "/api/chat" });
+    return io("https://keyurs-chat-app.vercel.app", { path: "/api/chat" });
   }, []);
 
   console.log("socket>>>>>>>>>>>>>>>>", socket);
