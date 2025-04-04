@@ -26,21 +26,14 @@ export default function handler(
   if (!res.socket) return res.status(500).json({ error: "No socket found" });
 
   const server = res.socket.server as SocketServer;
+  const users: any = {};
+  const groups: any = {};
 
   if (!server.io) {
-    // const io = new SocketIOServer(server, {
-    //   path: "/api/chat",
-    //   cors: {
-    //     origin: "*",
-    //     methods: ["GET", "POST"],
-    //     credentials: true,
-    //   },
-    // });
-
     const io = new SocketIOServer(server, {
-      path: "/socket.io/",
+      path: "/api/chat",
       cors: {
-        origin: "https://keyurs-chat-app.vercel.app",
+        origin: "*",
         methods: ["GET", "POST"],
         credentials: true,
       },
@@ -59,6 +52,53 @@ export default function handler(
 
       socket.on("new_user", (data) => {
         socket.broadcast.emit("new_user", data.user);
+      });
+
+      // Private chat
+
+      socket.on("startChat", ({ userId }) => {
+        if (!users[userId]) {
+          users[userId] = [];
+        }
+
+        if (!users[userId].includes(socket.id)) {
+          users[userId].push(socket.id);
+        }
+      });
+
+      socket.on("send_message_private", (data) => {
+        const recipientSocketIds = users[data.recipientId];
+        if (recipientSocketIds && recipientSocketIds.length > 0) {
+          recipientSocketIds.forEach((socketId: any) => {
+            io.to(socketId).emit("receive_message_private", data);
+          });
+        } else {
+          console.log("Recipient not found or offline");
+        }
+      });
+
+      socket.on("disconnect", () => {
+        let disconnectedUserId = null;
+
+        for (const userId in users) {
+          if (users[userId].includes(socket.id)) {
+            disconnectedUserId = userId;
+            users[userId] = users[userId].filter((id: any) => id !== socket.id);
+
+            if (users[userId].length === 0) {
+              delete users[userId];
+            }
+          }
+        }
+      });
+
+      //group chat
+
+      socket.on("join-group", (group) => {
+        const { groupId, joinUserId } = group;
+        console.log(`User ${socket.id} joined group: ${groupId}`);
+        socket.join(groupId);
+        io.to(groupId).emit("joined-group", joinUserId);
       });
     });
 
