@@ -8,6 +8,7 @@ interface Param {
 }
 
 const Message = ({ content, own, type, user }: Param) => {
+  console.log("content>>>>>>>>>>>>>>>", content);
   return (
     <p className={`message px-1 md:px-6 py-1 flex ${own && "justify-end"}`}>
       {!own && (
