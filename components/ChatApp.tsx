@@ -12,22 +12,9 @@ const ChatApp = () => {
   const [input, setInput] = useState("");
   const [typing, setTyping] = useState<any[]>([]);
 
-  // const socket: Socket = useMemo(() => {
-  //   return io("/", { path: "/api/chat" });
-  // }, []);
   const socket: Socket = useMemo(() => {
-    return io("https://keyurs-chat-app.vercel.app", {
-      // Change to actual backend URL
-      path: "/socket.io/",
-      transports: ["websocket", "polling"],
-      secure: false,
-      reconnection: true,
-      reconnectionAttempts: 5,
-      reconnectionDelay: 2000,
-    });
+    return io("/", { path: "/api/chat" });
   }, []);
-
-  console.log("socket>>>>>>>>>>>>>>>>", socket);
 
   useEffect(() => {
     console.log("call useeffect");
